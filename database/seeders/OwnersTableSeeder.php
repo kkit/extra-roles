@@ -15,7 +15,7 @@ class OwnersTableSeeder extends Seeder
     {
         for ($i = 1; $i <= 5; $i++) {
             Owner::firstOrCreate([
-                'name' => 'Company-' . $i,
+                'name' => 'Office' . $i,
             ]);
         }
     }

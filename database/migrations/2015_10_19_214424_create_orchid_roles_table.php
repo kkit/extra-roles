@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -18,6 +19,38 @@ return new class extends Migration
             $table->jsonb('permissions')->nullable();
             $table->timestamps();
         });
+
+        DB::table('roles')->insert([
+            [
+                'slug' => 'administrator',
+                'name' => 'Администратор',
+                'permissions' => '{"platform.systems.attachment":"1","platform.systems.users":"1","platform.systems.roles":"1","platform.index":"1"}',
+                'created_at' => DB::raw('now()'),
+                'updated_at' => DB::raw('now()'),
+            ],
+            [
+                'slug' => 'operator',
+                'name' => 'Оператор',
+                'permissions' => '{"platform.systems.attachment":"0","platform.systems.users":"0","platform.systems.roles":"0","platform.index":"1"}',
+                'created_at' => DB::raw('now()'),
+                'updated_at' => DB::raw('now()'),
+            ],
+            [
+                'slug' => 'moderator',
+                'name' => 'Модератор',
+                'permissions' => '{"platform.systems.attachment":"0","platform.systems.users":"0","platform.systems.roles":"0","platform.index":"1"}',
+                'created_at' => DB::raw('now()'),
+                'updated_at' => DB::raw('now()'),
+            ],
+            [
+                'slug' => 'designer',
+                'name' => 'Дизайнер',
+                'permissions' => '{"platform.systems.attachment":"0","platform.systems.users":"0","platform.systems.roles":"0","platform.index":"1"}',
+                'created_at' => DB::raw('now()'),
+                'updated_at' => DB::raw('now()'),
+            ],
+
+        ]);
     }
 
     /**

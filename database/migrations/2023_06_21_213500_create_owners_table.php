@@ -16,6 +16,15 @@ return new class extends Migration
             $table->string('name')->unique();
             $table->timestamps();
         });
+
+        // +
+        Schema::table('users', function (Blueprint $table) {
+            $table->unsignedInteger('owner_id')->index();
+            $table->foreign('owner_id')
+                ->references('id')
+                ->on('owners');
+        });
+
     }
 
     /**
@@ -24,5 +33,10 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('owners');
+        // +
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn(['owner_id']);
+        });
+
     }
 };
