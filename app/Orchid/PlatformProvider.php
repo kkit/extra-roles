@@ -66,7 +66,7 @@ class PlatformProvider extends OrchidServiceProvider
             Menu::make('Посты')
                 ->icon('bs.book')
                 ->route('post.list')
-                ->permission('platform.systems.users')
+                ->permission('posts')
                 ->title('App')
                 ->divider(),
 
@@ -112,6 +112,8 @@ class PlatformProvider extends OrchidServiceProvider
             ItemPermission::group(__('System'))
                 ->addPermission('platform.systems.roles', __('Roles'))
                 ->addPermission('platform.systems.users', __('Users')),
+            ItemPermission::group('App')
+                ->addPermission('posts', 'Посты'),
         ];
     }
 }

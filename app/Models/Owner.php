@@ -25,4 +25,12 @@ class Owner extends Model
         return $this->hasMany(Post::class);
     }
 
+    /**
+     * @return HasMany
+     */
+    public function users(): HasMany
+    {
+        return $this->hasMany(User::class);
+    }
+
 }

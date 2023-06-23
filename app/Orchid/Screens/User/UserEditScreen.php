@@ -6,6 +6,7 @@ namespace App\Orchid\Screens\User;
 
 use App\Orchid\Layouts\Role\RolePermissionLayout;
 use App\Orchid\Layouts\User\UserEditLayout;
+use App\Orchid\Layouts\User\UserOwnerLayout;
 use App\Orchid\Layouts\User\UserPasswordLayout;
 use App\Orchid\Layouts\User\UserRoleLayout;
 use Illuminate\Database\Eloquent\Builder;
@@ -121,6 +122,17 @@ class UserEditScreen extends Screen
                         ->method('save')
                 ),
 
+            Layout::block(UserOwnerLayout::class)
+                ->title('Отдел')
+                ->description('Отдел позволяет разделить доступ к данным')
+                ->commands(
+                    Button::make(__('Save'))
+                        ->type(Color::BASIC)
+                        ->icon('bs.check-circle')
+                        ->canSee($this->user->exists)
+                        ->method('save')
+                ),
+
             Layout::block(UserRoleLayout::class)
                 ->title(__('Roles'))
                 ->description(__('A Role defines a set of tasks a user assigned the role is allowed to perform.'))
@@ -156,6 +168,9 @@ class UserEditScreen extends Screen
                 'required',
                 Rule::unique(User::class, 'email')->ignore($user),
             ],
+            'user.owner_id' => [
+                'required',
+            ],
         ]);
 
         $permissions = collect($request->get('permissions'))
@@ -167,10 +182,18 @@ class UserEditScreen extends Screen
             $builder->getModel()->password = Hash::make($request->input('user.password'));
         });
 
+//        $user
+//            ->fill($request->collect('user')->except(['password', 'permissions', 'roles'])->toArray())
+//            ->fill(['permissions' => $permissions])
+//            ->save();
+
         $user
             ->fill($request->collect('user')->except(['password', 'permissions', 'roles'])->toArray())
-            ->fill(['permissions' => $permissions])
-            ->save();
+            ->fill(['permissions' => $permissions]);
+
+        $user->owner_id = $request->input('user.owner_id');
+
+        $user->save();
 
         $user->replaceRoles($request->input('user.roles'));
 

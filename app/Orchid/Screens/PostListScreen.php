@@ -16,7 +16,7 @@ class PostListScreen extends Screen
     public function query(): iterable
     {
         return [
-            'posts' => Post::paginate()
+            'posts' => Post::query()->owner(getOwnerId())->paginate()
         ];
     }
 

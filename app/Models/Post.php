@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Orchid\Screen\AsSource;
 
@@ -12,7 +11,7 @@ use Orchid\Screen\AsSource;
  * @property mixed $owner
  * @property mixed $content
  */
-class Post extends Model
+class Post extends BaseModel
 {
     use HasFactory, AsSource;
 
